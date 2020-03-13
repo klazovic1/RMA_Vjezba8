@@ -3,19 +3,28 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
+
     <ImageView
         android:id="@+id/icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         android:src="@drawable/filmic" />
+
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="wrap_content"
+        android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:paddingTop="5dp"/>
+        android:paddingTop="5dp"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/itemGenre"
+        android:layout_width="43dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textSize="13sp" />
 </LinearLayout>

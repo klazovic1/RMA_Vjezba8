@@ -2,15 +2,15 @@ package ba.unsa.etf.rma.vj_18508;
 
 public class Movie {
 
-    private String name, genre, homepage, releaseDate, overviewč
+    private String name, genre, homepage, releaseDate, overview;
 
 
-    public Movie(String name, String genre, String homepage, String releaseDate, String overviewč) {
+    public Movie(String name, String genre, String homepage, String releaseDate, String overview) {
         this.name = name;
         this.genre = genre;
         this.homepage = homepage;
         this.releaseDate = releaseDate;
-        this.overviewč = overviewč;
+        this.overview = overview;
     }
 
     public String getName() {
@@ -45,11 +45,11 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public String getOverviewč() {
-        return overviewč;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setOverviewč(String overviewč) {
-        this.overviewč = overviewč;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 }

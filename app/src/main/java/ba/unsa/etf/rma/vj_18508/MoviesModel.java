@@ -3,7 +3,7 @@ package ba.unsa.etf.rma.vj_18508;
 import java.util.ArrayList;
 import java.util.List;
 
-public static class MoviesModel {
+public class MoviesModel {
 
     private List<Movie> movies = new ArrayList<>();
 
