@@ -6,25 +6,36 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="96dp"
+        android:layout_height="94dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:src="@drawable/filmic" />
+        />
 
-    <TextView
-        android:id="@+id/itemName"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:textSize="30sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/itemGenre"
-        android:layout_width="43dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="13sp" />
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="5dp"
+            android:paddingTop="5dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/itemGenre"
+            android:layout_width="271dp"
+            android:layout_height="33dp"
+            android:layout_margin="20dp"
+            android:textAlignment="center"
+            android:textSize="13sp" />
+    </LinearLayout>
+
 </LinearLayout>

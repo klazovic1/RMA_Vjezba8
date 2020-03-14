@@ -33,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button);
         editText = (EditText) findViewById(R.id.editText);
         listView = (ListView) findViewById(R.id.list);
-        movieListAdapter = new MovieListAdapter(this, R.layout.list_element, moviesListPresenter.getMovieInteractor().getModel().getMovies());
+        movieListAdapter = new MovieListAdapter(this, moviesListPresenter.getMovieInteractor().getModel().getMovies());
         listView.setAdapter(movieListAdapter);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String naziv = editText.getText().toString();
-                moviesListPresenter.getMovieInteractor().addMovie(new Movie(naziv, "opa kiki", "", "", ""));
-                adapter.notifyDataSetChanged();
+                moviesListPresenter.getMovieInteractor().addMovie(new Movie(naziv, "opa kiki", "", "", "", R.drawable.filmic));
+                movieListAdapter.notifyDataSetChanged();
                 editText.setText("");
             }
         });

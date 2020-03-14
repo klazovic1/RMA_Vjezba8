@@ -9,51 +9,47 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieListAdapter extends ArrayAdapter<Movie> {
 
-    private int resource;
+    private Context mContext;
+    private List<Movie> movies = new ArrayList<>();
 
-    public MovieListAdapter (Context context, int r, List<Movie> items){
-        super(context, r, items);
-        resource = r;
+    public MovieListAdapter (@NonNull Context context, @LayoutRes List<Movie> items){
+        super(context, 0, items);
+        mContext = context;
+        movies = items;
     }
 
     @NonNull
     @Override
-    public View getView (int position, View convertView, ViewGroup parent){
+    public View getView (int position, @Nullable View convertView, @NonNull ViewGroup parent){
 
-        LinearLayout newView;
-        if(convertView == null){
+        View listItem = convertView;
 
-            newView = new LinearLayout(getContext());
-            String inflater = Context.LAYOUT_INFLATER_SERVICE;
-            LayoutInflater li;
-            li = (LayoutInflater)getContext().getSystemService(inflater);
-            li.inflate(resource, newView, true);
+        if(listItem == null)
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_element,parent,false);
 
-        }else{
-
-            newView = (LinearLayout)convertView;
-
-        }
-
-        Movie currentMovie = getItem(position);
-
-            ImageView image = (ImageView) convertView.findViewById(R.id.icon);
-            image.setImageResource(R.drawable.filmic);
-
-            TextView name = (TextView) convertView.findViewById(R.id.itemName);
-            name.setText(currentMovie.getName());
-
-            TextView genre = (TextView) convertView.findViewById(R.id.itemGenre);
-            genre.setText(currentMovie.getGenre());
+        Movie currentMovie = movies.get(position);
 
 
-        return newView;
+        ImageView image = (ImageView) listItem.findViewById(R.id.icon);
+        image.setImageResource(currentMovie.getSlika());
+
+        TextView name = (TextView) listItem.findViewById(R.id.itemName);
+        name.setText(currentMovie.getName());
+
+        TextView genre = (TextView) listItem.findViewById(R.id.itemGenre);
+        genre.setText(currentMovie.getGenre());
+
+
+        return listItem;
     }
 
 }

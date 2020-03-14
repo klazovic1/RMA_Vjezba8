@@ -3,14 +3,16 @@ package ba.unsa.etf.rma.vj_18508;
 public class Movie {
 
     private String name, genre, homepage, releaseDate, overview;
+    private int slika;
 
 
-    public Movie(String name, String genre, String homepage, String releaseDate, String overview) {
+    public Movie(String name, String genre, String homepage, String releaseDate, String overview, int s) {
         this.name = name;
         this.genre = genre;
         this.homepage = homepage;
         this.releaseDate = releaseDate;
         this.overview = overview;
+        slika = s;
     }
 
     public String getName() {
@@ -51,5 +53,13 @@ public class Movie {
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public int getSlika() {
+        return slika;
+    }
+
+    public void setSlika(int slika) {
+        this.slika = slika;
     }
 }
