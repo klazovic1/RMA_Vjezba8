@@ -52,4 +52,8 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         return listItem;
     }
 
+    public Movie getMovie(int position){
+        return movies.get(position);
+    }
+
 }

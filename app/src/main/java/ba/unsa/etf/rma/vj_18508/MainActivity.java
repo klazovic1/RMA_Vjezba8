@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Movie clickedMovie = moviesListPresenter.getMovieInteractor().getModel().getMovies().get(position);
+                Movie clickedMovie = movieListAdapter.getMovie(position);
                 Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
                 intent.putExtra("name", clickedMovie.getName());
                 intent.putExtra("image", clickedMovie.getSlika());
