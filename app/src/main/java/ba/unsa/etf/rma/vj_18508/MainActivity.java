@@ -63,8 +63,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+        Intent receivedIntent = getIntent();
+//        if(receivedIntent.getAction().equals(Intent.ACTION_SEND)){
+//            editText.setText(receivedIntent.getData().toString());
+//        }
+
+        if (receivedIntent.resolveActivity(getPackageManager()) != null &&
+                receivedIntent.getAction().equals(Intent.ACTION_SEND) ) {
+            editText.setText(receivedIntent.getStringExtra(Intent.EXTRA_TEXT));
+        }
+
+    }
 
 
 }
