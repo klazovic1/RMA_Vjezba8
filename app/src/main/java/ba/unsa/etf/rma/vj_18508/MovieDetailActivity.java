@@ -53,6 +53,19 @@ public class MovieDetailActivity extends AppCompatActivity {
        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = (String) textView.getText();
+                Intent intent1 = new Intent(Intent.ACTION_SEARCH);
+                intent1.setPackage("com.google.android.youtube");
+                intent1.putExtra("query", name + " trailer");   // bitno da pise tacno query
+                //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent1);
+
+            }
+        });
+
         link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
