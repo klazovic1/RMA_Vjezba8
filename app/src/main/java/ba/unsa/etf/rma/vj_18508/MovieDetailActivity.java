@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView link;
     private ListView listView;
     private ArrayAdapter<String> adapter;
+    private Button btnShare;
 
 
     @Override
@@ -35,6 +37,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         genre = findViewById(R.id.genre);
         link = findViewById(R.id.link);
         listView = findViewById(R.id.glumciList);
+        btnShare = findViewById(R.id.btnShare);
         Intent intent = getIntent();
         String receivedName = intent.getStringExtra("name");
         String receivedOverview = intent.getStringExtra("overview");
@@ -73,6 +76,17 @@ public class MovieDetailActivity extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
+            }
+        });
+
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tekst = (String)overview.getText();
+                Intent btnIntent = new Intent (Intent.ACTION_SEND);
+                btnIntent.putExtra(Intent.EXTRA_TEXT, tekst);
+                btnIntent.setType("text/plain");
+                startActivity(btnIntent);
             }
         });
 

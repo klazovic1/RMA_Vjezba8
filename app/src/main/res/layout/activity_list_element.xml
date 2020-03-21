@@ -8,35 +8,35 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="204dp"
-        android:layout_height="151dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="196dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
         android:src="@drawable/filmic"
+        app:layout_constraintBottom_toTopOf="@+id/link"
         app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.49" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="123dp"
-        android:layout_height="104dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="11dp"
+        android:layout_width="128dp"
+        android:layout_height="106dp"
+        android:layout_marginEnd="24dp"
         android:gravity="center"
         android:text="TextView"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="8dp" />
 
     <TextView
         android:id="@+id/overview"
-        android:layout_width="316dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="328dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="20dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,46 +44,49 @@
 
     <TextView
         android:id="@+id/genre"
-        android:layout_width="86dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="33dp"
+        android:layout_width="78dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="TextView"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/link"
+        app:layout_constraintBottom_toTopOf="@+id/overview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.326" />
+        app:layout_constraintVertical_bias="0.158" />
 
     <TextView
         android:id="@+id/link"
         android:layout_width="216dp"
         android:layout_height="35dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="12dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/overview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintHorizontal_bias="0.143"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.846" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ListView
         android:id="@+id/glumciList"
-        android:layout_width="316dp"
-        android:layout_height="393dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="317dp"
+        android:layout_height="205dp"
+        android:layout_marginTop="16dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/overview"
-        app:layout_constraintVertical_bias="0.162" />
+        app:layout_constraintTop_toBottomOf="@+id/btnShare" />
+
+    <Button
+        android:id="@+id/btnShare"
+        android:layout_width="314dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="8dp"
+        android:text="Share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/overview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
