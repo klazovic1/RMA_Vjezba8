@@ -1,9 +1,13 @@
 package ba.unsa.etf.rma.vj_18508;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Parcelable {
 
     private String name, genre, homepage, releaseDate, overview;
     private int slika;
@@ -86,4 +90,52 @@ public class Movie {
     public void setActors(ArrayList<String> actors) {
         this.actors = actors;
     }
+
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(name);
+        out.writeString(genre);
+        out.writeString(homepage);
+        out.writeString(releaseDate);
+        out.writeString(overview);
+        out.writeString(link);
+        out.writeInt(slika);
+        out.writeList(actors);
+    }
+
+    public Movie(Parcel in){
+
+        name = in.readString();
+        genre = in.readString();
+        homepage = in.readString();
+        releaseDate = in.readString();
+        overview = in.readString();
+        link = in.readString();
+        slika = in.readInt();
+        in.readStringList(actors);
+
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+
+
 }

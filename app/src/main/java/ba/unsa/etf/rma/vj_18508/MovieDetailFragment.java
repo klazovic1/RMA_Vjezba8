@@ -14,7 +14,6 @@ public class MovieDetailFragment extends Fragment {
 
         return inflater.inflate(R.layout.fragment_detail, container, false);
 
-
     }
 
 }
