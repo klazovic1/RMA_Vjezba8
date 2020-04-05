@@ -78,7 +78,7 @@ public class MovieListFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Movie movie = movieListAdapter.getMovie(position);
-            onItemClick.onItemClicked(Movie);
+            onItemClick.onItemClicked(movie);
         }
     };
 
@@ -128,7 +128,6 @@ public class MovieListFragment extends Fragment {
 
 
 
-    }
 
 
 }
