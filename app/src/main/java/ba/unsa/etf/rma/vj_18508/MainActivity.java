@@ -110,4 +110,26 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     }
 
 
+    @Override
+    public void onItemClicked(Movie movie){
+
+        Bundle arguments = new Bundle();
+        arguments.putParcelable("movie", movie);
+        MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+        movieDetailFragment.setArguments(arguments);
+        if(twoPaneMode){
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.movie_detail, movieDetailFragment).commit();
+
+        }else{
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.movies_list, movieDetailFragment).addToBackStack(null).commit();
+
+        }
+
+    }
+
+
+
+
 }

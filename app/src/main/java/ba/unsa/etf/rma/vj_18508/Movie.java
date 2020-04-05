@@ -101,10 +101,10 @@ public class Movie implements Parcelable {
         out.writeString(overview);
         out.writeString(link);
         out.writeInt(slika);
-        out.writeList(actors);
+        out.writeStringList(actors);
     }
 
-    public Movie(Parcel in){
+    protected Movie(Parcel in){
 
         name = in.readString();
         genre = in.readString();
@@ -114,6 +114,7 @@ public class Movie implements Parcelable {
         link = in.readString();
         slika = in.readInt();
         in.readStringList(actors);
+        //actors = in.createStringArrayList()
 
     }
 
