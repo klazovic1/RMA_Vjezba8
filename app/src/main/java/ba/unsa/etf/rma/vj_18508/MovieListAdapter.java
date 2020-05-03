@@ -12,6 +12,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +21,17 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
 
     private Context mContext;
     private List<Movie> movies = new ArrayList<>();
+    private String posterPath="https://image.tmdb.org/t/p/w342";
+
 
     public MovieListAdapter (@NonNull Context context, @LayoutRes List<Movie> items){
         super(context, 0, items);
         mContext = context;
         movies = items;
+    }
+
+    public Context getmContext() {
+        return mContext;
     }
 
     @NonNull
@@ -48,6 +56,12 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         genre.setText(currentMovie.getGenre());
 
 
+        Glide.with(getContext()).load(posterPath+currentMovie.getPosterPath()).centerCrop().placeholder(R.drawable.filmic)
+                .error(R.drawable.filmic).fallback(R.drawable.filmic).into(image);
+
+
+
+
         return listItem;
     }
 
@@ -59,4 +73,9 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
 
         this.movies.addAll(movies);
     }
+
+
+
+
+
 }
