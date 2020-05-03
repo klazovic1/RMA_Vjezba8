@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">VJ-18508</string>
+    <string name="simMovies">Slični filmovi</string>
+    <string name="cast">Glumci</string>
 </resources>

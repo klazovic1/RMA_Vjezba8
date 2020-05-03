@@ -42,7 +42,7 @@ public class MovieListFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_list, container, false);
 
         movieListAdapter = new MovieListAdapter(getActivity(), moviesListPresenter.getMovieInteractor().getModel().getMovies());
-        listView = fragmentView.findViewById(R.id.list);
+        listView = fragmentView.findViewById(R.id.listView);
         listView.setAdapter(movieListAdapter);
         listView.setOnItemClickListener(listItemClickListener);
         editText = fragmentView.findViewById(R.id.editText);
@@ -81,49 +81,6 @@ public class MovieListFragment extends Fragment {
             onItemClick.onItemClicked(movie);
         }
     };
-
-
- //       button = (Button) findViewById(R.id.button);
-//        editText = (EditText) findViewById(R.id.editText);
-//        listView = (ListView) findViewById(R.id.list);
-//        movieListAdapter = new MovieListAdapter(this, moviesListPresenter.getMovieInteractor().getModel().getMovies());
-//        listView.setAdapter(movieListAdapter);
-////        button.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                String naziv = editText.getText().toString();
-////                moviesListPresenter.getMovieInteractor().addMovie(new Movie(naziv, "opa kiki", "", "", "", R.drawable.filmic, "https://www.imdb.com/title/tt1316037/?ref_=ttls_li_tt"));
-////                movieListAdapter.notifyDataSetChanged();
-////                editText.setText("");
-////            }
-////        });
-//
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Movie clickedMovie = movieListAdapter.getMovie(position);
-//                Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
-//                intent.putExtra("name", clickedMovie.getName());
-//                intent.putExtra("image", clickedMovie.getSlika());
-//                intent.putExtra("overview", clickedMovie.getOverview());
-//                intent.putExtra("genre", clickedMovie.getGenre());
-//                intent.putExtra("link", clickedMovie.getLink());
-//                intent.putStringArrayListExtra("list", clickedMovie.getActors());
-//                startActivity(intent);
-//            }
-//        });
-//
-//
-//        Intent receivedIntent = getIntent();
-////        if(receivedIntent.getAction().equals(Intent.ACTION_SEND)){
-////            editText.setText(receivedIntent.getData().toString());
-////        }
-//
-//        if (receivedIntent.resolveActivity(getPackageManager()) != null &&
-//                receivedIntent.getAction().equals(Intent.ACTION_SEND) ) {
-//            editText.setText(receivedIntent.getStringExtra(Intent.EXTRA_TEXT));
-//        }
 
 
 

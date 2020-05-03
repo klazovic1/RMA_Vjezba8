@@ -13,9 +13,24 @@ public class Movie implements Parcelable {
     private int slika;
     private String link;
     private ArrayList<String> actors = new ArrayList<>();
+    private ArrayList<String> similarMovies;
 
 
-    public Movie(String name, String genre, String homepage, String releaseDate, String overview, int s, String link, ArrayList<String> list) {
+    public Movie(String name, String genre, String homepage, String releaseDate, String overview,
+                 int s, String link, ArrayList<String> list, ArrayList<String> similarMovies) {
+        this.name = name;
+        this.genre = genre;
+        this.homepage = homepage;
+        this.releaseDate = releaseDate;
+        this.overview = overview;
+        slika = s;
+        this.link = link;
+        this.actors = list;
+        this.similarMovies = similarMovies;
+    }
+
+    public Movie(String name, String genre, String homepage, String releaseDate, String overview,
+                 int s, String link, ArrayList<String> list ) {
         this.name = name;
         this.genre = genre;
         this.homepage = homepage;
@@ -25,6 +40,8 @@ public class Movie implements Parcelable {
         this.link = link;
         this.actors = list;
     }
+
+
 
     public String getName() {
         return name;
@@ -102,6 +119,7 @@ public class Movie implements Parcelable {
         out.writeString(link);
         out.writeInt(slika);
         out.writeStringList(actors);
+        out.writeStringList(similarMovies);
     }
 
     protected Movie(Parcel in){
@@ -114,7 +132,8 @@ public class Movie implements Parcelable {
         link = in.readString();
         slika = in.readInt();
         in.readStringList(actors);
-        //actors = in.createStringArrayList()
+        actors = in.createStringArrayList();
+        similarMovies = in.createStringArrayList();
 
     }
 
@@ -137,6 +156,11 @@ public class Movie implements Parcelable {
     }
 
 
+    public ArrayList<String> getSimilarMovies() {
+        return similarMovies;
+    }
 
-
+    public void setSimilarMovies(ArrayList<String> similarMovies) {
+        this.similarMovies = similarMovies;
+    }
 }

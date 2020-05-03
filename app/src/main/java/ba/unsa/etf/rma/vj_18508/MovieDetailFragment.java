@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import androidx.fragment.app.Fragment;
+
+import java.lang.reflect.Field;
 
 import androidx.fragment.app.Fragment;
 
@@ -25,6 +30,7 @@ public class MovieDetailFragment extends Fragment {
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private Button btnShare;
+    private ToggleButton toggleButton;
 
     private MovieDetailPresenter movieDetailPresenter = new MovieDetailPresenter();
 
@@ -41,8 +47,9 @@ public class MovieDetailFragment extends Fragment {
             overview = view.findViewById(R.id.overview);
             genre = view.findViewById(R.id.genre);
             link = view.findViewById(R.id.link);
-            listView = view.findViewById(R.id.glumciList);
+            //listView = view.findViewById(R.id.glumciList);
             btnShare = view.findViewById(R.id.btnShare);
+            toggleButton = view.findViewById(R.id.toggle_button);
 
             Movie currentMovie = movieDetailPresenter.getMovie();
             imageView.setImageResource(currentMovie.getSlika());
@@ -50,14 +57,27 @@ public class MovieDetailFragment extends Fragment {
             overview.setText(currentMovie.getOverview());
             genre.setText(currentMovie.getGenre());
             link.setText(currentMovie.getLink());
-            adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, currentMovie.getActors());
-            listView.setAdapter(adapter);
+//            adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, currentMovie.getActors());
+//            listView.setAdapter(adapter);
 
             link.setOnClickListener(linkOnClickListener);
             textView.setOnClickListener(titleOnClickListener);
             btnShare.setOnClickListener(shareOnClickListener);
 //            toggleButton.setOnCheckedChangeListener(toggleOnCheckedChangeListener);
 
+            Bundle arguments = new Bundle();
+            arguments.putStringArrayList("cast", currentMovie.getActors());
+            CastFragment castFragment = new CastFragment();
+            castFragment.setArguments(arguments);
+            getChildFragmentManager().beginTransaction()
+                    .add(R.id.frame, castFragment)
+                    .commit();
+
+
+            link.setOnClickListener(linkOnClickListener);
+            textView.setOnClickListener(titleOnClickListener);
+            btnShare.setOnClickListener(shareOnClickListener);
+            toggleButton.setOnCheckedChangeListener(toggleOnCheckedChangeListener);
 
         }
 
@@ -101,6 +121,26 @@ public class MovieDetailFragment extends Fragment {
             btnIntent.setType("text/plain");
             startActivity(btnIntent);
 
+        }
+    };
+
+    private CompoundButton.OnCheckedChangeListener toggleOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                Bundle arguments = new Bundle();
+                arguments.putStringArrayList("similar", movieDetailPresenter.getMovie().getSimilarMovies());
+                SimilarFragment similarFragment = new SimilarFragment();
+                similarFragment.setArguments(arguments);
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.frame, similarFragment).commit();
+            } else {
+                Bundle arguments = new Bundle();
+                arguments.putStringArrayList("cast", movieDetailPresenter.getMovie().getActors());
+                CastFragment castFragment = new CastFragment();
+                castFragment.setArguments(arguments);
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.frame, castFragment).commit();
+            }
         }
     };
 
