@@ -7,14 +7,14 @@ public class MovieDetailPresenter {
 
     private Context context;
     private Movie movie;
-    private MoviesListInteractor moviesListInteractor;
+    private MovieListInteractor movieListInteractor;
 
     MovieDetailPresenter() {
 
     }
 
     public void create() {
-        moviesListInteractor.addMovie(movie);
+        movieListInteractor.addMovie(movie);
     }
 
     public void setMovie(Parcelable movie){

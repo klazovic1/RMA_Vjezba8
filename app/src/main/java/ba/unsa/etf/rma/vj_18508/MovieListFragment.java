@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
-public class MovieListFragment extends Fragment {
+public class MovieListFragment extends Fragment implements IMovieListView{
 
     private Button button;
     private EditText editText;
@@ -69,6 +69,12 @@ public class MovieListFragment extends Fragment {
         }
 
 
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                moviesListPresenter.searchMovies(editText.getText().toString());
+            }
+        });
 
 
         return fragmentView;
@@ -81,6 +87,17 @@ public class MovieListFragment extends Fragment {
             onItemClick.onItemClicked(movie);
         }
     };
+
+
+    @Override
+    public void setMovies(ArrayList<Movie> movies) {
+        movieListAdapter.setMovies(movies);
+    }
+
+    @Override
+    public void notifyMovieListDataSetChanged() {
+        movieListAdapter.notifyDataSetChanged();
+    }
 
 
 

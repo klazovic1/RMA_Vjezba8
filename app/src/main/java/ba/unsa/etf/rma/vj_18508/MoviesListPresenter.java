@@ -1,18 +1,40 @@
 package ba.unsa.etf.rma.vj_18508;
 
-public class MoviesListPresenter {
+import android.content.Context;
 
-    private MoviesListInteractor movieInteractor;
+import java.util.ArrayList;
 
-    MoviesListPresenter() {
-        movieInteractor = new MoviesListInteractor();
+public class MoviesListPresenter implements OnMoviesSearchDone {
+
+    private IMovieListView view;
+    private MovieListInteractor interactor;
+    private Context context;
+
+    public MovieListPresenter(IMovieListView view, Context context) {
+        this.view       = view;
+        this.interactor = new MovieListInteractor();
+        this.context    = context;
     }
 
-    public MoviesListInteractor getMovieInteractor() {
-        return movieInteractor;
+    public MovieListInteractor getMovieInteractor() {
+        return interactor;
     }
 
-    public void setMovieInteractor(MoviesListInteractor movieInteractor) {
-        this.movieInteractor = movieInteractor;
+    public void setMovieInteractor(MovieListInteractor movieInteractor) {
+        this.interactor = movieInteractor;
     }
+
+    public void searchMovies(String query){
+        new MovieListInteractor((OnMoviesSearchDone)this).execute(query);
+    }
+
+
+
+    @Override
+    public void onDone(ArrayList<Movie> results) {
+        view.setMovies(results);
+        view.notifyMovieListDataSetChanged();
+    }
+
+
 }

@@ -25,6 +25,16 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
 
     private List<Movie> movies = new ArrayList<>();
 
+    private OnMoviesSearchDone caller;
+
+    public MovieListInteractor(OnMoviesSearchDone p){
+
+        caller = p;
+        movies = new ArrayList<Movie>();
+
+    }
+
+
 
     @Override
     protected Void doInBackground(String... strings) {
@@ -76,6 +86,13 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
     }
 
 
+    @Override
+    protected void onPostExecute(Void aVoid){
+        super.onPostExecute(aVoid);
+        caller.onDone(movies);
+    }
+
+
 
     public String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -100,13 +117,13 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
 
 //    private MoviesModel model;
 //
-//    public MoviesListInteractor() {
+//    public MovieListInteractor() {
 //
 //        model = new MoviesModel();
 //
 //    }
 //
-//    public MoviesListInteractor(MoviesModel model) {
+//    public MovieListInteractor(MoviesModel model) {
 //        this.model = model;
 //    }
 //
