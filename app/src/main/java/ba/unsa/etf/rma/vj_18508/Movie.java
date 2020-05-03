@@ -15,6 +15,35 @@ public class Movie implements Parcelable {
     private ArrayList<String> actors = new ArrayList<>();
     private ArrayList<String> similarMovies;
 
+    private int id;
+    private String posterPath;
+
+
+    public Movie(int id, String name, String overview, String releaseDate, String posterPath){
+
+        this.id = id;
+        this.name = name;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.posterPath = posterPath;
+
+    }
+
+    public Movie(String name, String genre, String homepage, String releaseDate, String overview,
+                 int s, String link, ArrayList<String> list, ArrayList<String> similarMovies, int id, String path) {
+        this.name = name;
+        this.genre = genre;
+        this.homepage = homepage;
+        this.releaseDate = releaseDate;
+        this.overview = overview;
+        slika = s;
+        this.link = link;
+        this.actors = list;
+        this.similarMovies = similarMovies;
+        this.id = id;
+        this.posterPath = path;
+    }
+
 
     public Movie(String name, String genre, String homepage, String releaseDate, String overview,
                  int s, String link, ArrayList<String> list, ArrayList<String> similarMovies) {
@@ -120,6 +149,8 @@ public class Movie implements Parcelable {
         out.writeInt(slika);
         out.writeStringList(actors);
         out.writeStringList(similarMovies);
+        out.writeInt(id);
+        out.writeString(posterPath);
     }
 
     protected Movie(Parcel in){
@@ -134,6 +165,8 @@ public class Movie implements Parcelable {
         in.readStringList(actors);
         actors = in.createStringArrayList();
         similarMovies = in.createStringArrayList();
+        id = in.readInt();
+        posterPath = in.readString();
 
     }
 
@@ -162,5 +195,21 @@ public class Movie implements Parcelable {
 
     public void setSimilarMovies(ArrayList<String> similarMovies) {
         this.similarMovies = similarMovies;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 }

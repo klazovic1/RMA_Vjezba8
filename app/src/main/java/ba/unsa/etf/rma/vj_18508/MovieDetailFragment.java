@@ -16,9 +16,6 @@ import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
 
-import java.lang.reflect.Field;
-
-import androidx.fragment.app.Fragment;
 
 public class MovieDetailFragment extends Fragment {
 
@@ -47,7 +44,6 @@ public class MovieDetailFragment extends Fragment {
             overview = view.findViewById(R.id.overview);
             genre = view.findViewById(R.id.genre);
             link = view.findViewById(R.id.link);
-            //listView = view.findViewById(R.id.glumciList);
             btnShare = view.findViewById(R.id.btnShare);
             toggleButton = view.findViewById(R.id.toggle_button);
 
@@ -57,13 +53,7 @@ public class MovieDetailFragment extends Fragment {
             overview.setText(currentMovie.getOverview());
             genre.setText(currentMovie.getGenre());
             link.setText(currentMovie.getLink());
-//            adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, currentMovie.getActors());
-//            listView.setAdapter(adapter);
 
-            link.setOnClickListener(linkOnClickListener);
-            textView.setOnClickListener(titleOnClickListener);
-            btnShare.setOnClickListener(shareOnClickListener);
-//            toggleButton.setOnCheckedChangeListener(toggleOnCheckedChangeListener);
 
             Bundle arguments = new Bundle();
             arguments.putStringArrayList("cast", currentMovie.getActors());
