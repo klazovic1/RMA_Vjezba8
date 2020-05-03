@@ -3,8 +3,9 @@ package ba.unsa.etf.rma.vj_18508;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MoviesListPresenter implements OnMoviesSearchDone {
+public class MovieListPresenter implements OnMoviesSearchDone {
 
     private IMovieListView view;
     private MovieListInteractor interactor;
@@ -12,7 +13,7 @@ public class MoviesListPresenter implements OnMoviesSearchDone {
 
     public MovieListPresenter(IMovieListView view, Context context) {
         this.view       = view;
-        this.interactor = new MovieListInteractor();
+        this.interactor = new MovieListInteractor(this);
         this.context    = context;
     }
 
@@ -31,7 +32,7 @@ public class MoviesListPresenter implements OnMoviesSearchDone {
 
 
     @Override
-    public void onDone(ArrayList<Movie> results) {
+    public void onDone(List<Movie> results) {
         view.setMovies(results);
         view.notifyMovieListDataSetChanged();
     }

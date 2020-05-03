@@ -14,6 +14,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MovieListFragment extends Fragment implements IMovieListView{
 
@@ -21,13 +22,21 @@ public class MovieListFragment extends Fragment implements IMovieListView{
     private EditText editText;
     private ListView listView;
     private ArrayAdapter<Movie> adapter;
-    private MoviesListPresenter moviesListPresenter = new MoviesListPresenter();
     private MovieListAdapter movieListAdapter;
 
     public interface OnItemClick {
         void onItemClicked(Movie movie);
     }
     private OnItemClick onItemClick;
+
+    public MovieListPresenter getPresenter() {
+        if (movieListPresenter == null) {
+            movieListPresenter = new MovieListPresenter(this, getActivity());
+        }
+        return movieListPresenter;
+    }
+
+    private MovieListPresenter movieListPresenter = getPresenter();
 
     @Override
     public void onCreate (Bundle savedInstanceState){
@@ -41,7 +50,7 @@ public class MovieListFragment extends Fragment implements IMovieListView{
 
         View fragmentView = inflater.inflate(R.layout.fragment_list, container, false);
 
-        movieListAdapter = new MovieListAdapter(getActivity(), moviesListPresenter.getMovieInteractor().getModel().getMovies());
+        movieListAdapter = new MovieListAdapter(getActivity(), new ArrayList<Movie>());
         listView = fragmentView.findViewById(R.id.listView);
         listView.setAdapter(movieListAdapter);
         listView.setOnItemClickListener(listItemClickListener);
@@ -72,7 +81,7 @@ public class MovieListFragment extends Fragment implements IMovieListView{
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                moviesListPresenter.searchMovies(editText.getText().toString());
+                movieListPresenter.searchMovies(editText.getText().toString());
             }
         });
 
@@ -90,7 +99,9 @@ public class MovieListFragment extends Fragment implements IMovieListView{
 
 
     @Override
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(List<Movie> movies) {
+        movieListAdapter = new MovieListAdapter(getActivity(), movies);
+        listView.setAdapter(movieListAdapter);
         movieListAdapter.setMovies(movies);
     }
 

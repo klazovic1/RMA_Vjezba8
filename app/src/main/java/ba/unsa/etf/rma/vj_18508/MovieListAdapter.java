@@ -55,7 +55,7 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         return movies.get(position);
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(List<Movie> movies) {
 
         this.movies.addAll(movies);
     }

@@ -30,22 +30,6 @@ public class Movie implements Parcelable {
     }
 
     public Movie(String name, String genre, String homepage, String releaseDate, String overview,
-                 int s, String link, ArrayList<String> list, ArrayList<String> similarMovies, int id, String path) {
-        this.name = name;
-        this.genre = genre;
-        this.homepage = homepage;
-        this.releaseDate = releaseDate;
-        this.overview = overview;
-        slika = s;
-        this.link = link;
-        this.actors = list;
-        this.similarMovies = similarMovies;
-        this.id = id;
-        this.posterPath = path;
-    }
-
-
-    public Movie(String name, String genre, String homepage, String releaseDate, String overview,
                  int s, String link, ArrayList<String> list, ArrayList<String> similarMovies) {
         this.name = name;
         this.genre = genre;
@@ -56,7 +40,9 @@ public class Movie implements Parcelable {
         this.link = link;
         this.actors = list;
         this.similarMovies = similarMovies;
+
     }
+
 
     public Movie(String name, String genre, String homepage, String releaseDate, String overview,
                  int s, String link, ArrayList<String> list ) {
@@ -68,6 +54,17 @@ public class Movie implements Parcelable {
         slika = s;
         this.link = link;
         this.actors = list;
+    }
+
+    public Movie(String title, String overview, String releaseDate, String genre, String homepage, ArrayList<String> actors){
+
+        this.name = title;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.genre = genre;
+        this.homepage = homepage;
+        this.actors = actors;
+
     }
 
 
