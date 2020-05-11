@@ -16,8 +16,10 @@ import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 
-public class MovieDetailFragment extends Fragment {
+
+public class MovieDetailFragment extends Fragment implements IMovieDetailView{
 
     private ImageView imageView;
     private TextView textView;
@@ -28,8 +30,16 @@ public class MovieDetailFragment extends Fragment {
     private ArrayAdapter<String> adapter;
     private Button btnShare;
     private ToggleButton toggleButton;
+    private MovieDetailPresenter movieDetailPresenter = getPresenter();
+    private String posterPath="https://image.tmdb.org/t/p/w342";
 
-    private MovieDetailPresenter movieDetailPresenter = new MovieDetailPresenter();
+
+    public MovieDetailPresenter getPresenter() {
+        if (movieDetailPresenter == null)
+            movieDetailPresenter = new MovieDetailPresenter(this, getActivity());
+        return movieDetailPresenter;
+    }
+
 
 
     @Override
@@ -37,8 +47,10 @@ public class MovieDetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        if(getArguments() != null && getArguments().containsKey("movie")){
-            movieDetailPresenter.setMovie(getArguments().getParcelable("movie"));
+        if(getArguments() != null && getArguments().containsKey("id")){
+            //movieDetailPresenter.setMovie(getArguments().getParcelable("movie"));
+            int movieId = getArguments().getInt("id");
+            movieDetailPresenter.searchMovie(Integer.toString(movieId));
             imageView = view.findViewById(R.id.imageView);
             textView = view.findViewById(R.id.textView);
             overview = view.findViewById(R.id.overview);
@@ -47,21 +59,21 @@ public class MovieDetailFragment extends Fragment {
             btnShare = view.findViewById(R.id.btnShare);
             toggleButton = view.findViewById(R.id.toggle_button);
 
-            Movie currentMovie = movieDetailPresenter.getMovie();
-            imageView.setImageResource(currentMovie.getSlika());
-            textView.setText(currentMovie.getName());
-            overview.setText(currentMovie.getOverview());
-            genre.setText(currentMovie.getGenre());
-            link.setText(currentMovie.getLink());
+//            Movie currentMovie = movieDetailPresenter.getMovie();
+//            imageView.setImageResource(currentMovie.getSlika());
+//            textView.setText(currentMovie.getName());
+//            overview.setText(currentMovie.getOverview());
+//            genre.setText(currentMovie.getGenre());
+//            link.setText(currentMovie.getLink());
 
 
-            Bundle arguments = new Bundle();
-            arguments.putStringArrayList("cast", currentMovie.getActors());
-            CastFragment castFragment = new CastFragment();
-            castFragment.setArguments(arguments);
-            getChildFragmentManager().beginTransaction()
-                    .add(R.id.frame, castFragment)
-                    .commit();
+//            Bundle arguments = new Bundle();
+//            arguments.putStringArrayList("cast", currentMovie.getActors());
+//            CastFragment castFragment = new CastFragment();
+//            castFragment.setArguments(arguments);
+//            getChildFragmentManager().beginTransaction()
+//                    .add(R.id.frame, castFragment)
+//                    .commit();
 
 
             link.setOnClickListener(linkOnClickListener);
@@ -133,6 +145,37 @@ public class MovieDetailFragment extends Fragment {
             }
         }
     };
+
+
+
+    @Override
+    public void refreshView() {
+
+        Movie movie = getPresenter().getMovie();
+        textView.setText(movie.getName());
+        genre.setText(movie.getGenre());
+        overview.setText(movie.getOverview());
+        //releaseDate.setText(movie.getReleaseDate());
+        link.setText(movie.getHomepage());
+        Glide.with(getContext())
+                .load(posterPath+movie.getPosterPath())
+                .centerCrop()
+                .placeholder(R.drawable.filmic)
+                .error(R.drawable.filmic)
+                .fallback(R.drawable.filmic)
+                .into(imageView);
+        Bundle arguments = new Bundle();
+        arguments.putStringArrayList("cast", movie.getActors());
+        CastFragment castFragment = new CastFragment();
+        castFragment.setArguments(arguments);
+        getChildFragmentManager().beginTransaction()
+                .add(R.id.frame, castFragment)
+                .commit();
+
+
+
+    }
+
 
 
 

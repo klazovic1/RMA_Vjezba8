@@ -5,13 +5,18 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class MovieDetailPresenter {
+public class MovieDetailPresenter implements OnMovieSearchDone{
 
     private Context context;
     private Movie movie;
     private MovieListInteractor movieListInteractor;
 
-    MovieDetailPresenter() {
+    private IMovieDetailView view;
+
+    MovieDetailPresenter(IMovieDetailView view, Context context) {
+
+        this.view = view;
+        this.context = context;
 
     }
 
@@ -26,5 +31,18 @@ public class MovieDetailPresenter {
     public Movie getMovie() {
         return movie;
     }
+
+    public void searchMovie (String query){
+
+        new MovieDetailInteractor((OnMovieSearchDone)this).execute(query);
+
+    }
+
+    @Override
+    public void onDone(Movie result){
+        movie = result;
+        view.refreshView();
+    }
+
 
 }
