@@ -122,12 +122,12 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
 
 
                 Details();
-                movies.add(movie);
+                recentlySearchedMovies.add(movie);
             }while (cursor.moveToNext());
         }
         cursor.close();
         database.close();
-        return movies;
+        return recentlySearchedMovies;
 
 
 
