@@ -43,10 +43,42 @@ public class MovieDBOpenHelper extends SQLiteOpenHelper {
     private static final String MOVIE_DROP = "DROP TABLE IF EXISTS " + MOVIE_TABLE;
 
 
+    public static final String CAST_TABLE = "actors";
+    public static final String CAST_ID = "id";
+    public static final String CAST_NAME = "name";
+    public static final String CAST_MOVIE_ID = "movie_id";
+
+
+    private static final String CAST_TABLE_CREATE =
+            "CREATE TABLE IF NOT EXISTS " + CAST_TABLE + " (" + CAST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + CAST_NAME + " TEXT NOT NULL, "
+                    + CAST_MOVIE_ID + " INTEGER NOT NULL, "+" FOREIGN KEY ("+CAST_MOVIE_ID+") REFERENCES "+ MOVIE_TABLE +"("+MOVIE_ID+"));";
+
+
+    private static final String CAST_TABLE_DROP = "DROP TABLE IF EXISTS " + CAST_TABLE;
+
+
+    public static final String SIMILIAR_MOVIES = "similar";
+    public static final String SMOVIES_ID = "id";
+    public static final String SMOVIE_TITLE = "title";
+    public static final String SMOVIES_MOVIE_ID = "movie_id";
+
+
+    private static final String SMOVIES_TABLE_CREATE =
+            "CREATE TABLE IF NOT EXISTS " + SIMILIAR_MOVIES + " (" + SMOVIES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + SMOVIE_TITLE + " TEXT NOT NULL, "
+                    + SMOVIES_MOVIE_ID + " INTEGER NOT NULL, "+" FOREIGN KEY ("+ SMOVIES_MOVIE_ID +") REFERENCES "+ MOVIE_TABLE +"("+MOVIE_ID+"));";
+
+    private static final String SMOVIES_DROP = "DROP TABLE IF EXISTS " + SIMILIAR_MOVIES;
+
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(MOVIE_TABLE_CREATE);
+        db.execSQL(CAST_TABLE_CREATE);
+        db.execSQL(SMOVIES_TABLE_CREATE);
 
     }
 
@@ -54,6 +86,8 @@ public class MovieDBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 
+        db.execSQL(CAST_TABLE_DROP);
+        db.execSQL(SMOVIES_DROP);
         db.execSQL(MOVIE_DROP);
         onCreate(db);
 

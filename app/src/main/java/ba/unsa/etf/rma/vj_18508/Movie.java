@@ -221,4 +221,10 @@ public class Movie implements Parcelable {
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
+
+
+    public static Creator<Movie> getCREATOR() {
+        return CREATOR;
+    }
+
 }

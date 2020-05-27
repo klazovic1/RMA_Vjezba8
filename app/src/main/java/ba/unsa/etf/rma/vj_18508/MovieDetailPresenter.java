@@ -9,7 +9,7 @@ public class MovieDetailPresenter implements OnMovieSearchDone{
 
     private Context context;
     private Movie movie;
-    private MovieListInteractor movieListInteractor;
+    private MovieDetailInteractor interactor;
 
     private IMovieDetailView view;
 
@@ -17,6 +17,7 @@ public class MovieDetailPresenter implements OnMovieSearchDone{
 
         this.view = view;
         this.context = context;
+        interactor = new MovieDetailInteractor(this);
 
     }
 
@@ -41,6 +42,7 @@ public class MovieDetailPresenter implements OnMovieSearchDone{
     @Override
     public void onDone(Movie result){
         movie = result;
+        interactor.save(movie, context.getApplicationContext());
         view.refreshView();
     }
 

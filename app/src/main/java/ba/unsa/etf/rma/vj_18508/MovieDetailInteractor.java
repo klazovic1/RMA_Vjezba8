@@ -1,5 +1,9 @@
 package ba.unsa.etf.rma.vj_18508;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -24,6 +28,10 @@ public class MovieDetailInteractor extends AsyncTask<String, Integer, Void> {
     private String tmdbAPIkey = "4923e81af87f0578853a71bfbf7eb12a";
     private Movie movie;
     private OnMovieSearchDone caller;
+
+    private MovieDBOpenHelper movieDBOpenHelper;
+
+    SQLiteDatabase database;
 
 
     public MovieDetailInteractor(OnMovieSearchDone onMovieSearchDone) {
@@ -148,6 +156,41 @@ public class MovieDetailInteractor extends AsyncTask<String, Integer, Void> {
         }
         return null;
     }
+
+
+    public void save (Movie movie, Context context){
+
+        movieDBOpenHelper = new MovieDBOpenHelper(context);
+        database = movieDBOpenHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(MovieDBOpenHelper.MOVIE_ID, movie.getId());
+        values.put(MovieDBOpenHelper.MOVIE_TITLE, movie.getName());
+        values.put(MovieDBOpenHelper.MOVIE_GENRE, movie.getGenre());
+        values.put(MovieDBOpenHelper.MOVIE_HOMEPAGE, movie.getHomepage());
+        values.put(MovieDBOpenHelper.MOVIE_OVERVIEW, movie.getOverview());
+        values.put(MovieDBOpenHelper.MOVIE_POSTERPATH, movie.getPosterPath());
+        values.put(MovieDBOpenHelper.MOVIE_RELEASEDATE, movie.getReleaseDate());
+        database.insert(MovieDBOpenHelper.MOVIE_TABLE, null, values);
+
+        for (int i = 0; i < movie.getActors().size(); i++){
+            String name = movie.getActors().get(i);
+            ContentValues cast = new ContentValues();
+            cast.put(MovieDBOpenHelper.CAST_NAME,name);
+            cast.put(MovieDBOpenHelper.CAST_MOVIE_ID, movie.getId());
+            database.insert(MovieDBOpenHelper.CAST_TABLE, null, cast);
+        }
+
+        for (int i = 0; i < movie.getSimilarMovies().size(); i++){
+            String title = movie.getSimilarMovies().get(i);
+            ContentValues similar = new ContentValues();
+            similar.put(MovieDBOpenHelper.SMOVIE_TITLE,title);
+            similar.put(MovieDBOpenHelper.SMOVIES_MOVIE_ID, movie.getId());
+            database.insert(MovieDBOpenHelper.SIMILIAR_MOVIES, null, similar);
+        }
+        database.close();
+
+    }
+
 
 
     public String convertStreamToString(InputStream is) {

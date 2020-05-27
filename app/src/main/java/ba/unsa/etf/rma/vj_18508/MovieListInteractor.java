@@ -1,5 +1,8 @@
 package ba.unsa.etf.rma.vj_18508;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -25,7 +28,16 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
 
     private List<Movie> movies = new ArrayList<>();
 
+    private List<Movie> recentlySearchedMovies = new ArrayList<>();
+
     private OnMoviesSearchDone caller;
+
+    private MovieDBOpenHelper movieDBOpenHelper;
+
+    SQLiteDatabase database;
+
+    private Movie movie = null;
+
 
     public MovieListInteractor(OnMoviesSearchDone p){
 
@@ -70,7 +82,7 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
                 String releaseDate = movie.getString("release_date");
                 //Filmove dodajemo u listu koja je privatni atribut klase
                 movies.add(new Movie(id, title, overview, releaseDate, posterPath));
-
+                if (i==4) break;
             }
 
 
@@ -82,6 +94,87 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
             e.printStackTrace();
         }
         return null;
+
+    }
+
+
+    public List<Movie> getMovies(Context context){
+
+        recentlySearchedMovies = new ArrayList<>();
+        movieDBOpenHelper = new MovieDBOpenHelper(context);
+        database = movieDBOpenHelper.getWritableDatabase();
+        String query = "SELECT *"  + " FROM "
+                + MovieDBOpenHelper.MOVIE_TABLE +" ORDER BY " +MovieDBOpenHelper.MOVIE_INTERNAL_ID + " DESC LIMIT 5";
+
+        Cursor cursor = database.rawQuery(query,null);
+        if(cursor.moveToFirst()) {
+            do{
+                int idPos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_ID);
+                int titlePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_TITLE);
+                int genrePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_GENRE);
+                int homepagePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_HOMEPAGE);
+                int posterPos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_POSTERPATH);
+                int overviewPos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_OVERVIEW);
+                int releasePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_RELEASEDATE);
+
+                movie = new Movie(cursor.getInt(idPos), cursor.getString(titlePos), cursor.getString(overviewPos),
+                        cursor.getString(releasePos), cursor.getString(posterPos), cursor.getString(homepagePos), cursor.getString(genrePos));
+
+
+                Details();
+                movies.add(movie);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        database.close();
+        return movies;
+
+
+
+    }
+
+    private void Details() {
+
+        String query;
+        query = "SELECT " + MovieDBOpenHelper.CAST_NAME + " FROM " +
+                MovieDBOpenHelper.CAST_TABLE + " WHERE "+
+                MovieDBOpenHelper.CAST_MOVIE_ID + " = ?";
+
+        Cursor cursor = database.rawQuery(query, new String[]{Integer.toString(movie.getId())});
+        ArrayList<String> cast = new ArrayList<String>();
+
+        if(cursor.moveToFirst()){
+            do{
+
+                int castNamePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.CAST_NAME);
+                cast.add(cursor.getString(castNamePos));
+
+            }while(cursor.moveToNext());
+        }
+
+        movie.setActors(cast);
+        cursor.close();
+
+        query = "SELECT " + MovieDBOpenHelper.SMOVIE_TITLE + " FROM "
+                + MovieDBOpenHelper.SIMILIAR_MOVIES + " WHERE "
+                + MovieDBOpenHelper.SMOVIES_MOVIE_ID + " = ?";
+
+        Cursor cursor2 = database.rawQuery(query, new String[]{Integer.toString(movie.getId())});
+        ArrayList<String> similarMovies = new ArrayList<String>();
+
+        if(cursor2.moveToFirst()){
+            do{
+
+                int similarMovieNamePos = cursor2.getColumnIndexOrThrow(MovieDBOpenHelper.SMOVIE_TITLE);
+                similarMovies.add(cursor2.getString(similarMovieNamePos));
+
+            }while(cursor2.moveToNext());
+        }
+
+        movie.setSimilarMovies(similarMovies);
+        cursor2.close();
+
+
 
     }
 

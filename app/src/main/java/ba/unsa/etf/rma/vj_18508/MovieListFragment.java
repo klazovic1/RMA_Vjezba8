@@ -36,7 +36,7 @@ public class MovieListFragment extends Fragment implements IMovieListView{
         return movieListPresenter;
     }
 
-    private MovieListPresenter movieListPresenter = getPresenter();
+    private MovieListPresenter movieListPresenter ;
 
     @Override
     public void onCreate (Bundle savedInstanceState){
@@ -50,6 +50,7 @@ public class MovieListFragment extends Fragment implements IMovieListView{
 
         View fragmentView = inflater.inflate(R.layout.fragment_list, container, false);
 
+        movieListPresenter = getPresenter();
         movieListAdapter = new MovieListAdapter(getActivity(), new ArrayList<Movie>());
         listView = fragmentView.findViewById(R.id.listView);
         listView.setAdapter(movieListAdapter);
@@ -62,6 +63,8 @@ public class MovieListFragment extends Fragment implements IMovieListView{
         }catch (ClassCastException e){
             throw new ClassCastException(getActivity().toString() + "Treba implementirati OnItemClick");
         }
+
+        getPresenter().getMovies();
 
         Intent intent = getActivity().getIntent();
         String action = intent.getAction();

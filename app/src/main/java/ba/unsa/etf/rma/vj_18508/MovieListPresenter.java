@@ -27,6 +27,13 @@ public class MovieListPresenter implements OnMoviesSearchDone {
 
     public void searchMovies(String query){
         new MovieListInteractor((OnMoviesSearchDone)this).execute(query);
+
+    }
+
+
+    public void getMovies(){
+        List<Movie> movies = this.interactor.getMovies(context.getApplicationContext());
+        view.setMovies(movies);
     }
 
 

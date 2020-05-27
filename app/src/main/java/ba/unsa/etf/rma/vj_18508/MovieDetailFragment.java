@@ -30,7 +30,7 @@ public class MovieDetailFragment extends Fragment implements IMovieDetailView{
     private ArrayAdapter<String> adapter;
     private Button btnShare;
     private ToggleButton toggleButton;
-    private MovieDetailPresenter movieDetailPresenter = getPresenter();
+    private MovieDetailPresenter movieDetailPresenter ;
     private String posterPath="https://image.tmdb.org/t/p/w342";
 
 
@@ -47,17 +47,33 @@ public class MovieDetailFragment extends Fragment implements IMovieDetailView{
 
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        if(getArguments() != null && getArguments().containsKey("id")){
+        imageView = view.findViewById(R.id.imageView);
+        textView = view.findViewById(R.id.textView);
+        overview = view.findViewById(R.id.overview);
+        genre = view.findViewById(R.id.genre);
+        link = view.findViewById(R.id.link);
+        btnShare = view.findViewById(R.id.btnShare);
+        toggleButton = view.findViewById(R.id.toggle_button);
+
+        link.setOnClickListener(linkOnClickListener);
+        textView.setOnClickListener(titleOnClickListener);
+        btnShare.setOnClickListener(shareOnClickListener);
+        toggleButton.setOnCheckedChangeListener(toggleOnCheckedChangeListener);
+
+        movieDetailPresenter = getPresenter();
+
+        if(getArguments() != null && getArguments().containsKey("id")) {
             //movieDetailPresenter.setMovie(getArguments().getParcelable("movie"));
             int movieId = getArguments().getInt("id");
             movieDetailPresenter.searchMovie(Integer.toString(movieId));
-            imageView = view.findViewById(R.id.imageView);
-            textView = view.findViewById(R.id.textView);
-            overview = view.findViewById(R.id.overview);
-            genre = view.findViewById(R.id.genre);
-            link = view.findViewById(R.id.link);
-            btnShare = view.findViewById(R.id.btnShare);
-            toggleButton = view.findViewById(R.id.toggle_button);
+        }
+
+        if (getArguments() != null && getArguments().containsKey("movie")) {
+            Movie movie = getArguments().getParcelable("movie");
+            getPresenter().setMovie(movie);
+            refreshView();
+        }
+
 
 //            Movie currentMovie = movieDetailPresenter.getMovie();
 //            imageView.setImageResource(currentMovie.getSlika());
@@ -76,12 +92,9 @@ public class MovieDetailFragment extends Fragment implements IMovieDetailView{
 //                    .commit();
 
 
-            link.setOnClickListener(linkOnClickListener);
-            textView.setOnClickListener(titleOnClickListener);
-            btnShare.setOnClickListener(shareOnClickListener);
-            toggleButton.setOnCheckedChangeListener(toggleOnCheckedChangeListener);
 
-        }
+
+
 
 
 
