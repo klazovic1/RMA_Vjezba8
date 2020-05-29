@@ -61,13 +61,15 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
 
 
     @Override
-    public void onItemClicked(Movie movie){
+    public void onItemClicked(Boolean inDatabase, int id){
 
         Bundle arguments = new Bundle();
-        if (movie.getActors().isEmpty())
-            arguments.putInt("id", movie.getId());
+        if (!inDatabase)
+            arguments.putInt("id", id);
         else
-            arguments.putParcelable("movie",movie);
+            arguments.putInt("internalId",id);
+
+
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
         movieDetailFragment.setArguments(arguments);
         if(twoPaneMode){

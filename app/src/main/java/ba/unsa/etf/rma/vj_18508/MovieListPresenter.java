@@ -37,6 +37,13 @@ public class MovieListPresenter implements OnMoviesSearchDone {
     }
 
 
+    //@Override
+    public void getMoviesCursor() {
+        view.setCursor(interactor.getMovieCursor(context.getApplicationContext()));
+    }
+
+
+
 
     @Override
     public void onDone(List<Movie> results) {

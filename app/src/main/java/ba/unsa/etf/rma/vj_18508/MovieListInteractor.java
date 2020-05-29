@@ -1,8 +1,10 @@
 package ba.unsa.etf.rma.vj_18508;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -177,6 +179,26 @@ public class MovieListInteractor extends AsyncTask<String, Integer, Void> {
 
 
     }
+
+
+    //@Override
+    public Cursor getMovieCursor(Context context) {
+        ContentResolver cr = context.getApplicationContext().getContentResolver();
+        String[] kolone = new String[]{
+                MovieDBOpenHelper.MOVIE_INTERNAL_ID,
+                MovieDBOpenHelper.MOVIE_TITLE,
+                MovieDBOpenHelper.MOVIE_RELEASEDATE,
+                MovieDBOpenHelper.MOVIE_POSTERPATH
+
+        };
+        Uri adresa = Uri.parse("content://rma.provider.movies/elements");
+        String where = null;
+        String whereArgs[] = null;
+        String order = null;
+        Cursor cur = cr.query(adresa,kolone,where,whereArgs,order);
+        return cur;
+    }
+
 
 
     @Override

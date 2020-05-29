@@ -20,7 +20,7 @@ public class MovieDBOpenHelper extends SQLiteOpenHelper {
 
     public static final String MOVIE_TABLE = "movies";
     public static final String MOVIE_ID = "id";
-    public static final String MOVIE_INTERNAL_ID = "internalId";
+    public static final String MOVIE_INTERNAL_ID = "_id";
     public static final String MOVIE_TITLE = "title";
     public static final String MOVIE_GENRE = "genre";
     public static final String MOVIE_HOMEPAGE = "homepage";

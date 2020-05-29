@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.vj_18508;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
@@ -16,6 +17,13 @@ public class MovieDetailPresenter implements OnMovieSearchDone{
     MovieDetailPresenter(IMovieDetailView view, Context context) {
 
         this.view = view;
+        this.context = context;
+        interactor = new MovieDetailInteractor(this);
+
+    }
+
+    MovieDetailPresenter(Context context) {
+
         this.context = context;
         interactor = new MovieDetailInteractor(this);
 
@@ -37,6 +45,21 @@ public class MovieDetailPresenter implements OnMovieSearchDone{
 
         new MovieDetailInteractor((OnMovieSearchDone)this).execute(query);
 
+    }
+
+   // @Override
+    public void getDatabaseMovie(int id) {
+        movie = interactor.getMovie(context,id);
+    }
+
+   // @Override
+    public Cursor getCastCursor(int id) {
+        return interactor.getCastCursor(context,id);
+    }
+
+    //@Override
+    public Cursor getSimilarCursor(int id) {
+        return interactor.getSimilarCursor(context,id);
     }
 
     @Override

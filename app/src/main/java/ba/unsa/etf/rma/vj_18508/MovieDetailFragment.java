@@ -68,9 +68,9 @@ public class MovieDetailFragment extends Fragment implements IMovieDetailView{
             movieDetailPresenter.searchMovie(Integer.toString(movieId));
         }
 
-        if (getArguments() != null && getArguments().containsKey("movie")) {
-            Movie movie = getArguments().getParcelable("movie");
-            getPresenter().setMovie(movie);
+        if (getArguments() != null && getArguments().containsKey("internalId")) {
+            int id = getArguments().getInt("internalId");
+            getPresenter().getDatabaseMovie(id);
             refreshView();
         }
 

@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.vj_18508;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +24,10 @@ public class MovieListFragment extends Fragment implements IMovieListView{
     private ListView listView;
     private ArrayAdapter<Movie> adapter;
     private MovieListAdapter movieListAdapter;
+    private MovieCursorAdapter movieCursorAdapter;
 
     public interface OnItemClick {
-        void onItemClicked(Movie movie);
+        void onItemClicked(Boolean inDatabase, int id);
     }
     private OnItemClick onItemClick;
 
@@ -52,11 +54,13 @@ public class MovieListFragment extends Fragment implements IMovieListView{
 
         movieListPresenter = getPresenter();
         movieListAdapter = new MovieListAdapter(getActivity(), new ArrayList<Movie>());
+        movieCursorAdapter= new MovieCursorAdapter(getActivity(), R.layout.list_element,null,false);
         listView = fragmentView.findViewById(R.id.listView);
-        listView.setAdapter(movieListAdapter);
+        listView.setAdapter(movieCursorAdapter);
         listView.setOnItemClickListener(listItemClickListener);
         editText = fragmentView.findViewById(R.id.editText);
         button = fragmentView.findViewById(R.id.button);
+
 
         try {
             onItemClick = (OnItemClick)getActivity();
@@ -64,8 +68,9 @@ public class MovieListFragment extends Fragment implements IMovieListView{
             throw new ClassCastException(getActivity().toString() + "Treba implementirati OnItemClick");
         }
 
-        getPresenter().getMovies();
+        //getPresenter().getMovies();
 
+        getPresenter().getMoviesCursor();
         Intent intent = getActivity().getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -96,7 +101,17 @@ public class MovieListFragment extends Fragment implements IMovieListView{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Movie movie = movieListAdapter.getMovie(position);
-            onItemClick.onItemClicked(movie);
+            onItemClick.onItemClicked(false, movie.getId());
+        }
+    };
+
+    private AdapterView.OnItemClickListener listCursorItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+            if(cursor != null) {
+                onItemClick.onItemClicked(true, cursor.getInt(cursor.getColumnIndex(MovieDBOpenHelper.MOVIE_INTERNAL_ID)));
+            }
         }
     };
 
@@ -114,6 +129,12 @@ public class MovieListFragment extends Fragment implements IMovieListView{
     }
 
 
+    @Override
+    public void setCursor(Cursor cursor) {
+        listView.setAdapter(movieCursorAdapter);
+        listView.setOnItemClickListener(listCursorItemClickListener);
+        movieCursorAdapter.changeCursor(cursor);
+    }
 
 
 

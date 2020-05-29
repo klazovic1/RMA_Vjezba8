@@ -1,9 +1,13 @@
 package ba.unsa.etf.rma.vj_18508;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -189,6 +193,65 @@ public class MovieDetailInteractor extends AsyncTask<String, Integer, Void> {
         }
         database.close();
 
+    }
+
+    //@Override
+    public Movie getMovie(Context context, Integer id) {
+        ContentResolver cr = context.getApplicationContext().getContentResolver();
+        String[] kolone = null;
+        Uri adresa = ContentUris.withAppendedId(Uri.parse("content://rma.provider.movies/elements"),id);
+        String where = null;
+        String whereArgs[] = null;
+        String order = null;
+        Cursor cursor = cr.query(adresa,kolone,where,whereArgs,order);
+        if (cursor != null){
+            cursor.moveToFirst();
+            int idPos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_ID);
+            int internalId = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_INTERNAL_ID);
+            int titlePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_TITLE);
+            int genrePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_GENRE);
+            int homepagePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_HOMEPAGE);
+            int posterPos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_POSTERPATH);
+            int overviewPos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_OVERVIEW);
+            int releasePos = cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_RELEASEDATE);
+            movie = new Movie(cursor.getInt(idPos), cursor.getString(titlePos),
+                    cursor.getString(overviewPos), cursor.getString(releasePos), cursor.getString(posterPos),
+                    cursor.getString(homepagePos), cursor.getString(genrePos),cursor.getInt(internalId));
+
+        }
+        cursor.close();
+        return movie;
+    }
+
+    //@Override
+    public Cursor getCastCursor(Context context, int id) {
+        ContentResolver cr = context.getApplicationContext().getContentResolver();
+        String[] kolone = new String[]{
+                MovieDBOpenHelper.CAST_NAME,
+                MovieDBOpenHelper.CAST_ID
+        };
+        Uri adresa = ContentUris.withAppendedId(Uri.parse("content://rma.provider.cast/elements"), id);
+        String where = null;
+        String whereArgs[] = null;
+        String order = null;
+        Cursor cur = cr.query(adresa, kolone, where, whereArgs, order);
+        return cur;
+
+    }
+
+    //@Override
+    public Cursor getSimilarCursor(Context context, int id) {
+        ContentResolver cr = context.getApplicationContext().getContentResolver();
+        String[] kolone = new String[]{
+                MovieDBOpenHelper.SMOVIES_ID,
+                MovieDBOpenHelper.SMOVIE_TITLE
+        };
+        Uri adresa = ContentUris.withAppendedId(Uri.parse("content://rma.provider.similar/elements"), id);
+        String where = null;
+        String whereArgs[] = null;
+        String order = null;
+        Cursor cur = cr.query(adresa, kolone, where, whereArgs, order);
+        return cur;
     }
 
 

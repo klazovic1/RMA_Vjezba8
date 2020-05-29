@@ -15,7 +15,8 @@ public class Movie implements Parcelable {
     private ArrayList<String> actors = new ArrayList<>();
     private ArrayList<String> similarMovies;
 
-    private int id;
+    private Integer id;
+    private Integer internalId;
     private String posterPath;
 
 
@@ -38,6 +39,19 @@ public class Movie implements Parcelable {
         this.posterPath = posterPath;
         this.homepage = homepage;
         this.genre = genre;
+
+    }
+
+    public Movie(int id, String name, String overview, String releaseDate, String posterPath, String homepage, String genre, Integer internalId){
+
+        this.id = id;
+        this.name = name;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.posterPath = posterPath;
+        this.homepage = homepage;
+        this.genre = genre;
+        this.internalId = internalId;
 
     }
 
@@ -158,7 +172,18 @@ public class Movie implements Parcelable {
         out.writeInt(slika);
         out.writeStringList(actors);
         out.writeStringList(similarMovies);
-        out.writeInt(id);
+        if (id == null) {
+            out.writeByte((byte) 0);
+        } else {
+            out.writeByte((byte) 1);
+            out.writeInt(id);
+        }
+        if (internalId == null) {
+            out.writeByte((byte) 0);
+        } else {
+            out.writeByte((byte) 1);
+            out.writeInt(internalId);
+        }
         out.writeString(posterPath);
     }
 
@@ -174,7 +199,16 @@ public class Movie implements Parcelable {
         in.readStringList(actors);
         actors = in.createStringArrayList();
         similarMovies = in.createStringArrayList();
-        id = in.readInt();
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            internalId = null;
+        } else {
+            internalId = in.readInt();
+        }
         posterPath = in.readString();
 
     }
@@ -227,4 +261,11 @@ public class Movie implements Parcelable {
         return CREATOR;
     }
 
+    public Integer getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(Integer internalId) {
+        this.internalId = internalId;
+    }
 }
