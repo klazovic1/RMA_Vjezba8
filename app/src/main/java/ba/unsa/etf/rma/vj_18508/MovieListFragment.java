@@ -120,6 +120,7 @@ public class MovieListFragment extends Fragment implements IMovieListView{
     public void setMovies(List<Movie> movies) {
         movieListAdapter = new MovieListAdapter(getActivity(), movies);
         listView.setAdapter(movieListAdapter);
+        listView.setOnItemClickListener(listItemClickListener);
         //movieListAdapter.setMovies(movies);
     }
 

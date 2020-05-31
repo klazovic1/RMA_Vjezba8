@@ -25,8 +25,8 @@ public class MovieCursorAdapter extends ResourceCursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        titleView = view.findViewById(R.id.title);
-        genreView = view.findViewById(R.id.genre);
+        titleView = view.findViewById(R.id.itemName);
+        genreView = view.findViewById(R.id.itemGenre);
         imageView = view.findViewById(R.id.icon);
         titleView.setText(cursor.getString(cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_TITLE)));
         genreView.setText(cursor.getString(cursor.getColumnIndexOrThrow(MovieDBOpenHelper.MOVIE_RELEASEDATE)));

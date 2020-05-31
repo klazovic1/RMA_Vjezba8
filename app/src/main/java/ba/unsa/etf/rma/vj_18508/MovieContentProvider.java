@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.rmav2020.util;
+package ba.unsa.etf.rma.vj_18508;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

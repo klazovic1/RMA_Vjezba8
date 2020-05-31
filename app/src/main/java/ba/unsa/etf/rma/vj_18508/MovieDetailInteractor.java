@@ -164,8 +164,10 @@ public class MovieDetailInteractor extends AsyncTask<String, Integer, Void> {
 
     public void save (Movie movie, Context context){
 
-        movieDBOpenHelper = new MovieDBOpenHelper(context);
-        database = movieDBOpenHelper.getWritableDatabase();
+        ContentResolver cr = context.getApplicationContext().getContentResolver();
+        Uri moviesURI = Uri.parse("content://rma.provider.movies/elements");
+        Uri castURI = Uri.parse("content://rma.provider.cast/elements");
+        Uri similarURI = Uri.parse("content://rma.provider.similar/elements");
         ContentValues values = new ContentValues();
         values.put(MovieDBOpenHelper.MOVIE_ID, movie.getId());
         values.put(MovieDBOpenHelper.MOVIE_TITLE, movie.getName());
@@ -174,14 +176,14 @@ public class MovieDetailInteractor extends AsyncTask<String, Integer, Void> {
         values.put(MovieDBOpenHelper.MOVIE_OVERVIEW, movie.getOverview());
         values.put(MovieDBOpenHelper.MOVIE_POSTERPATH, movie.getPosterPath());
         values.put(MovieDBOpenHelper.MOVIE_RELEASEDATE, movie.getReleaseDate());
-        database.insert(MovieDBOpenHelper.MOVIE_TABLE, null, values);
+        cr.insert(moviesURI,values);
 
         for (int i = 0; i < movie.getActors().size(); i++){
             String name = movie.getActors().get(i);
             ContentValues cast = new ContentValues();
             cast.put(MovieDBOpenHelper.CAST_NAME,name);
             cast.put(MovieDBOpenHelper.CAST_MOVIE_ID, movie.getId());
-            database.insert(MovieDBOpenHelper.CAST_TABLE, null, cast);
+            cr.insert(castURI,cast);
         }
 
         for (int i = 0; i < movie.getSimilarMovies().size(); i++){
@@ -189,9 +191,8 @@ public class MovieDetailInteractor extends AsyncTask<String, Integer, Void> {
             ContentValues similar = new ContentValues();
             similar.put(MovieDBOpenHelper.SMOVIE_TITLE,title);
             similar.put(MovieDBOpenHelper.SMOVIES_MOVIE_ID, movie.getId());
-            database.insert(MovieDBOpenHelper.SIMILIAR_MOVIES, null, similar);
+            cr.insert(similarURI,similar);
         }
-        database.close();
 
     }
 
