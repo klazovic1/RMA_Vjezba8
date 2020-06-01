@@ -44,7 +44,7 @@ public class MovieDBOpenHelper extends SQLiteOpenHelper {
 
 
     public static final String CAST_TABLE = "actors";
-    public static final String CAST_ID = "id";
+    public static final String CAST_ID = "_id";
     public static final String CAST_NAME = "name";
     public static final String CAST_MOVIE_ID = "movie_id";
 
@@ -59,7 +59,7 @@ public class MovieDBOpenHelper extends SQLiteOpenHelper {
 
 
     public static final String SIMILIAR_MOVIES = "similar";
-    public static final String SMOVIES_ID = "id";
+    public static final String SMOVIES_ID = "_id";
     public static final String SMOVIE_TITLE = "title";
     public static final String SMOVIES_MOVIE_ID = "movie_id";
 

@@ -228,8 +228,8 @@ public class MovieDetailInteractor extends AsyncTask<String, Integer, Void> {
     public Cursor getCastCursor(Context context, int id) {
         ContentResolver cr = context.getApplicationContext().getContentResolver();
         String[] kolone = new String[]{
+                MovieDBOpenHelper.CAST_ID,
                 MovieDBOpenHelper.CAST_NAME,
-                MovieDBOpenHelper.CAST_ID
         };
         Uri adresa = ContentUris.withAppendedId(Uri.parse("content://rma.provider.cast/elements"), id);
         String where = null;

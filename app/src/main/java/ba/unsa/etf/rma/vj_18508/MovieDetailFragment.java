@@ -143,14 +143,20 @@ public class MovieDetailFragment extends Fragment implements IMovieDetailView{
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
                 Bundle arguments = new Bundle();
-                arguments.putStringArrayList("similar", movieDetailPresenter.getMovie().getSimilarMovies());
+                if (getPresenter().getMovie().getInternalId()!=null)
+                    arguments.putInt("id",getPresenter().getMovie().getId());
+                else
+                    arguments.putStringArrayList("similar", getPresenter().getMovie().getSimilarMovies());
                 SimilarFragment similarFragment = new SimilarFragment();
                 similarFragment.setArguments(arguments);
                 getChildFragmentManager().beginTransaction()
                         .replace(R.id.frame, similarFragment).commit();
             } else {
                 Bundle arguments = new Bundle();
-                arguments.putStringArrayList("cast", movieDetailPresenter.getMovie().getActors());
+                if (getPresenter().getMovie().getInternalId()!=null)
+                    arguments.putInt("id",getPresenter().getMovie().getId());
+                else
+                    arguments.putStringArrayList("cast", getPresenter().getMovie().getActors());
                 CastFragment castFragment = new CastFragment();
                 castFragment.setArguments(arguments);
                 getChildFragmentManager().beginTransaction()
@@ -178,7 +184,10 @@ public class MovieDetailFragment extends Fragment implements IMovieDetailView{
                 .fallback(R.drawable.filmic)
                 .into(imageView);
         Bundle arguments = new Bundle();
-        arguments.putStringArrayList("cast", movie.getActors());
+        if (movie.getInternalId()!=null)
+            arguments.putInt("id",movie.getId());
+        else
+            arguments.putStringArrayList("cast", movie.getActors());
         CastFragment castFragment = new CastFragment();
         castFragment.setArguments(arguments);
         getChildFragmentManager().beginTransaction()
